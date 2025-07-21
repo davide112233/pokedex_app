@@ -1,42 +1,81 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+:root {
+    --paper: #D2042D;
+    --accent: white;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+* {
+    transition: all 0.5s ease-in-out;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+    font-family: "Bungee", sans-serif !important;
+    background-color: var(--paper) !important;
+    overflow-y: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 100vh;
 }
 
-.card {
-  padding: 2em;
+#pokemon-list-item {
+    background-color: transparent !important;
 }
 
-.read-the-docs {
-  color: #888;
+#pokemon-info {
+    height: fit-content;
+    box-shadow: 2.2px 2.2px 7px white !important;
+}
+
+.search-pokemon-box {
+    width: 30rem !important;
+}
+
+.form-control {
+    box-shadow: none !important;
+}
+
+#search-pokemon {
+    background-color: transparent;
+    color: var(--accent);
+    border: none;
+    border-bottom: 1px solid var(--accent);
+    border-radius: 0;
+}
+
+#search-pokemon::placeholder {
+    opacity: 0.65;
+    color: var(--accent);
+}
+
+#page-not-found {
+    background-color: var(--paper);
+}
+
+@media screen and (orientation: portrait) {
+    .search-pokemon-box {
+        width: 100% !important;
+    }
+
+    #pokemon-info {
+        height: 20rem;
+        overflow-y: auto;
+    }
+
+    #pokemon-list {
+        margin-top: 1rem !important;
+    }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+    #pokemon-info {
+        height: fit-content;
+        overflow-y: auto;
+    }
+
+    #pokemon-list {
+        margin-top: 1rem !important;
+    }
 }
