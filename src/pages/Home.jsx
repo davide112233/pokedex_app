@@ -1,12 +1,17 @@
-import PokemonDashboard from "../components/PokemonDashboard";
+import { useState } from "react";
+import Navbar from "../components/Navbar";
+import PokedexFlexView from "../components/PokedexFlexView";
+import PokedexLibView from "../components/PokedexLibView";
 
 const Home = () => {
+    const [view, setView] = useState("Book view");
+    const [spriteMode, setSpriteMode] = useState("front_default");
+
     return (
         <>
+            <Navbar selectedView={view} onViewChange={setView} spriteMode={spriteMode} onSpriteChange={setSpriteMode} />
             <main id="main">
-                <div className="container-fluid d-flex justify-content-xl-between justify-content-center gap-xl-0 gap-3 p-3">
-                    <PokemonDashboard />
-                </div>
+               {view === "Grid view" ? <PokedexFlexView spriteMode={spriteMode} /> : <PokedexLibView spriteMode={spriteMode} />}
             </main>
         </>
     );

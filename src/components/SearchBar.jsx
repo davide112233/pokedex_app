@@ -9,6 +9,7 @@ const SearchBar = ({ searchQuery, onSearchChange }) => {
         id="search-pokemon"
         className="form-control"
         placeholder={DOMPurify.sanitize(`Type the pokemon name you're looking at`)}
+        autoComplete="off"
         value={DOMPurify.sanitize(searchQuery)}
         onChange={(e) => onSearchChange(e.target.value)}
       />

@@ -20,7 +20,7 @@ const typeColors = {
   fairy: '#ee99ac'
 };
 
-const PokemonInfo = ({ selectedPokemon }) => {
+const PokemonInfo = ({ selectedPokemon, spriteMode }) => {
   if (!selectedPokemon) return null;
 
   const {
@@ -36,6 +36,11 @@ const PokemonInfo = ({ selectedPokemon }) => {
 
   const mainType = types[0]?.type?.name || 'normal';
   const bgColor = typeColors[mainType] || '#ddd';
+
+  const imageSrc =
+    spriteMode === 'home_front_default'
+      ? sprites?.other?.home?.front_default || sprites?.front_default
+      : sprites?.front_default;
 
   return (
     <div
@@ -57,7 +62,7 @@ const PokemonInfo = ({ selectedPokemon }) => {
           <h4 className="text-capitalize text-start mt-2">{DOMPurify.sanitize(name)} (#{id})</h4>
         </div>
         <img
-          src={DOMPurify.sanitize(sprites?.front_default)}
+          src={DOMPurify.sanitize(imageSrc)}
           alt={DOMPurify.sanitize(name)}
           className="card-img-top mx-auto"
           style={{ width: '100px', height: '100px' }}

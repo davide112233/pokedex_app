@@ -1,10 +1,7 @@
 :root {
     --paper: #D2042D;
     --accent: white;
-}
-
-* {
-    transition: all 0.5s ease-in-out;
+    --active-sprite: #32CD32;
 }
 
 body {
@@ -13,11 +10,46 @@ body {
     overflow-y: hidden;
 }
 
+.navbar-brand {
+    font-size: x-large !important;
+}
+
+.settings-btn {
+    font-size: x-large !important;
+}
+
+.navbar-brand, .settings-btn {
+    color: var(--accent) !important;
+}
+
+#pokedex-view-setter {
+    width: 30rem;
+    cursor: pointer;
+}
+
+.pokedex-image-setter-buttons-box button {
+    height: fit-content;
+}
+
+.sprite-button.active {
+    background-color: var(--active-sprite) !important;
+    color: var(--accent) !important;
+}
+
+.sprite-button.inactive {
+    background-color: var(--paper) !important;
+    color: var(--accent) !important;
+}
+
 #main {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     min-height: 100vh;
+}
+
+#pokemon-list .list-group-flush {
+    margin-bottom: 7rem;
 }
 
 #pokemon-list-item {
@@ -29,11 +61,16 @@ body {
     box-shadow: 2.2px 2.2px 7px white !important;
 }
 
+.pokemon-card {
+    box-shadow: 2px 2px 5px var(--accent) !important;
+    height: fit-content !important;
+}
+
 .search-pokemon-box {
     width: 30rem !important;
 }
 
-.form-control {
+.form-control, .form-select {
     box-shadow: none !important;
 }
 
@@ -55,6 +92,10 @@ body {
 }
 
 @media screen and (orientation: portrait) {
+    .navbar-brand, .settings-btn {
+        font-size: large !important;
+    }
+
     .search-pokemon-box {
         width: 100% !important;
     }
