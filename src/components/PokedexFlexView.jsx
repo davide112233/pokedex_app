@@ -8,7 +8,7 @@ const PokedexFlexView = ({ spriteMode }) => {
 
     return (
         <>
-            <div className='container d-flex flex-column mt-xl-2 mt-5' style={{ height: '100vh',  overflow: 'hidden' }}>
+            <div className='container d-flex flex-column mt-xl-3 mt-5' style={{ height: '100vh',  overflow: 'hidden' }}>
                 <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
                 <PokemonFlex onSelect={setSelectedPokemon} searchQuery={searchQuery} spriteMode={spriteMode} />
             </div>

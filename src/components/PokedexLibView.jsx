@@ -9,7 +9,7 @@ const PokedexLibView = ({ spriteMode }) => {
 
   return (
     <div
-      className="container-fluid d-flex flex-column mt-xl-2 mt-5"
+      className="container-fluid d-flex flex-column mt-xl-3 mt-5"
       style={{ height: '100vh', overflow: 'hidden' }}
     >
       <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />

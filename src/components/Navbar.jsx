@@ -8,7 +8,7 @@ const Navbar = ({ selectedView, onViewChange, spriteMode, onSpriteChange }) => {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand-lg shadow-lg">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#">{DOMPurify.sanitize(`Pokedex app`)}</a>
                     <form className="d-flex mb-2" role="search">
