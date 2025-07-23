@@ -2,33 +2,47 @@ import { useState, useEffect } from "react";
 import PokemonsService from "../utils/PokemonsService";
 import DOMPurify from "isomorphic-dompurify";
 
-const PokemonList = ({ onSelect, searchQuery, spriteMode }) => {
+const PokemonList = ({ onSelect, searchQuery, spriteMode, selectedPokemon, speciesList }) => {
   const [pokemons, setPokemons] = useState([]);
 
+  const selectedPokemonId = selectedPokemon?.id;
+
   useEffect(() => {
-    const fetchPokemonList = async () => {
-      const listData = await PokemonsService.getPokemonList(151);
-      if (listData?.results) {
-        const detailedData = await Promise.all(
-          listData.results.map(async (pokemon) => {
-            const data = await PokemonsService.getPokemon(DOMPurify.sanitize(pokemon.name));
-            return {
-              id: data.id,
-              name: data.name,
-              image:
-                spriteMode === 'home_front_default'
-                  ? data.sprites.other?.home?.front_default || data.sprites.front_default
-                  : data.sprites.front_default,
-              type: data.types[0]?.type.name,
-              fullData: data
-            };
-          })
-        );
-        setPokemons(detailedData);
+    const fetchPokemonsFromSpecies = async () => {
+      if (!speciesList || speciesList.length === 0) {
+        setPokemons([]);
+        return;
       }
+
+      const failedNames = [];
+
+      const detailedData = await Promise.all(
+        speciesList.map(async (species) => {
+          const name = species.name;
+          const data = await PokemonsService.getPokemon(DOMPurify.sanitize(name));
+          if (!data) {
+            failedNames.push(name);
+            return null;
+          }
+          return {
+            id: data.id,
+            name: data.name,
+            image:
+              spriteMode === 'home_front_default'
+                ? data.sprites.other?.home?.front_default || data.sprites.front_default
+                : data.sprites.front_default,
+            type: data.types[0]?.type.name,
+            fullData: data,
+          };
+        })
+      );
+
+      setPokemons(detailedData.filter(Boolean));
+      console.warn('Failed to fetch data for:', failedNames);
     };
-    fetchPokemonList();
-  }, [spriteMode]);
+
+    fetchPokemonsFromSpecies();
+  }, [speciesList, spriteMode]);
 
   const filteredPokemons = pokemons.filter(p =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -38,16 +52,13 @@ const PokemonList = ({ onSelect, searchQuery, spriteMode }) => {
     <div
       id="pokemon-list"
       className="container mt-xl-3"
-      style={{
-        overflowY: 'auto',
-        height: 'calc(100vh - 9rem)',
-      }}
+      style={{ overflowY: 'auto', height: 'calc(100vh - 9rem)' }}
     >
       <ul className="list-group list-group-flush mt-xl-3">
         {filteredPokemons.map((pokemon) => (
           <li
             id="pokemon-list-item"
-            className="list-group-item d-flex align-items-center"
+            className={`list-group-item d-flex align-items-center ${selectedPokemonId === pokemon.id ? 'selected-pokemon' : ''}`}
             key={pokemon.id}
             style={{ cursor: 'pointer' }}
             onClick={() => onSelect(pokemon.fullData)}
@@ -58,9 +69,7 @@ const PokemonList = ({ onSelect, searchQuery, spriteMode }) => {
               className="me-3"
               style={{ width: '50px', height: '50px' }}
             />
-            <span className="text-capitalize text-white">
-              {DOMPurify.sanitize(pokemon.name)}
-            </span>
+            <span className="text-capitalize">{DOMPurify.sanitize(pokemon.name)}</span>
           </li>
         ))}
       </ul>

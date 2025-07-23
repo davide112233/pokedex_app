@@ -3,57 +3,50 @@ import PokemonsService from "../utils/PokemonsService";
 import DOMPurify from "isomorphic-dompurify";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Modal } from 'bootstrap';
+import typeColors from "../utils/typeColors";
 
-const typeColors = {
-  fire: '#f08030',
-  water: '#6890f0',
-  grass: '#78c850',
-  electric: '#f8d030',
-  psychic: '#f85888',
-  normal: '#a8a878',
-  ground: '#e0c068',
-  rock: '#b8a038',
-  bug: '#a8b820',
-  ghost: '#705898',
-  poison: '#a040a0',
-  dragon: '#7038f8',
-  ice: '#98d8d8',
-  fighting: '#c03028',
-  dark: '#705848',
-  steel: '#b8b8d0',
-  fairy: '#ee99ac'
-};
-
-const PokemonFlex = ({ onSelect, searchQuery, spriteMode }) => {
+const PokemonFlex = ({ onSelect, searchQuery, spriteMode, speciesList }) => {
   const [pokemons, setPokemons] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   useEffect(() => {
-    const fetchPokemonList = async () => {
-      const listData = await PokemonsService.getPokemonList(151);
-      if (listData?.results) {
-        const detailedData = await Promise.all(
-          listData.results.map(async (pokemon) => {
-            const data = await PokemonsService.getPokemon(DOMPurify.sanitize(pokemon.name));
-            return {
-              id: data.id,
-              name: data.name,
-              image:
-                spriteMode === 'home_front_default'
-                  ? data.sprites.other?.home?.front_default || data.sprites.front_default
-                  : data.sprites.front_default,
-              type: data.types[0]?.type.name,
-              fullData: data
-            };
-          })
-        );
-        setPokemons(detailedData);
+    const fetchPokemonsFromSpecies = async () => {
+      if (!speciesList || speciesList.length === 0) {
+        setPokemons([]);
+        return;
       }
-    };
-    fetchPokemonList();
-  }, [spriteMode]);
 
-  const filteredPokemons = pokemons.filter(p =>
+      const failedNames = [];
+
+      const detailedData = await Promise.all(
+        speciesList.map(async (species) => {
+          const name = species.name;
+          const data = await PokemonsService.getPokemon(DOMPurify.sanitize(name));
+          if (!data) {
+            failedNames.push(name);
+            return null;
+          }
+          return {
+            id: data.id,
+            name: data.name,
+            image:
+              spriteMode === 'home_front_default'
+                ? data.sprites.other?.home?.front_default || data.sprites.front_default
+                : data.sprites.front_default,
+            type: data.types[0]?.type.name,
+            fullData: data,
+          };
+        })
+      );
+
+      setPokemons(detailedData.filter(Boolean));
+      console.warn('Failed to fetch data for:', failedNames);
+    };
+
+    fetchPokemonsFromSpecies();
+  }, [speciesList, spriteMode]);
+
+  const filtered = pokemons.filter(p =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -67,18 +60,18 @@ const PokemonFlex = ({ onSelect, searchQuery, spriteMode }) => {
     <>
       <div
         id="pokemon-flex"
-        className="container d-flex flex-wrap justify-content-xl-start justify-content-center gap-xl-5 gap-3 mt-xl-3 mt-5"
+        className="container d-flex flex-wrap justify-content-xl-start justify-content-center gap-3 mt-xl-3 mt-5"
         style={{
           overflowY: 'auto',
-          height: 'calc(100vh - 9rem)',
+          height: 'calc(100vh - 15rem)',
         }}
       >
-        {filteredPokemons.map((pokemon) => {
+        {filtered.map((pokemon) => {
           const bgColor = typeColors[pokemon.type] || '#ddd';
 
           return (
             <div
-              className="card pokemon-card"
+              className="card pokemon-card mb-3"
               style={{ backgroundColor: bgColor, cursor: 'pointer' }}
               key={pokemon.id}
               onClick={() => openModal(pokemon)}

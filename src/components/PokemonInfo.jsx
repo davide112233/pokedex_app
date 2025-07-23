@@ -1,24 +1,5 @@
 import DOMPurify from "isomorphic-dompurify";
-
-const typeColors = {
-  fire: '#f08030',
-  water: '#6890f0',
-  grass: '#78c850',
-  electric: '#f8d030',
-  psychic: '#f85888',
-  normal: '#a8a878',
-  ground: '#e0c068',
-  rock: '#b8a038',
-  bug: '#a8b820',
-  ghost: '#705898',
-  poison: '#a040a0',
-  dragon: '#7038f8',
-  ice: '#98d8d8',
-  fighting: '#c03028',
-  dark: '#705848',
-  steel: '#b8b8d0',
-  fairy: '#ee99ac'
-};
+import typeColors from "../utils/typeColors";
 
 const PokemonInfo = ({ selectedPokemon, spriteMode }) => {
   if (!selectedPokemon) return null;
@@ -67,7 +48,7 @@ const PokemonInfo = ({ selectedPokemon, spriteMode }) => {
           className="card-img-top mx-auto"
           style={{ width: '100px', height: '100px' }}
         />
-        <div className="card-body">
+        <div className="card-body" style={{ backgroundColor: bgColor }}>
           <p><strong>{DOMPurify.sanitize(`Height: `)}</strong> {DOMPurify.sanitize(height.toString())}</p>
           <p><strong>{DOMPurify.sanitize(`Weight: `)}</strong> {DOMPurify.sanitize(weight.toString())}</p>
           <p><strong>{DOMPurify.sanitize(`Type: `)}</strong> {types.map(t => DOMPurify.sanitize(t.type.name)).join(', ')}</p>

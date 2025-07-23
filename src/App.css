@@ -1,6 +1,8 @@
 :root {
-    --paper: #D2042D;
+    --paper: whitesmoke;
+    --primary: #D2042D;
     --accent: white;
+    --secondary: black;
     --active-sprite: #32CD32;
 }
 
@@ -10,8 +12,21 @@ body {
     overflow-y: hidden;
 }
 
+.navbar {
+    background-color: var(--primary);
+}
+
 .navbar-brand {
     font-size: x-large !important;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid var(--accent);
+}
+
+.offcanvas-header, .offcanvas-body {
+    background-color: var(--primary);
+    color: var(--accent);
 }
 
 .settings-btn {
@@ -34,11 +49,12 @@ body {
 .sprite-button.active {
     background-color: var(--active-sprite) !important;
     color: var(--accent) !important;
+    border: none;
 }
 
 .sprite-button.inactive {
     background-color: var(--paper) !important;
-    color: var(--accent) !important;
+    color: var(--secondary) !important;
 }
 
 #main {
@@ -48,21 +64,33 @@ body {
     min-height: 100vh;
 }
 
+#generations-filter-btn {
+    width: 7rem;
+}
+
 #pokemon-list .list-group-flush {
     margin-bottom: 7rem;
 }
 
 #pokemon-list-item {
-    background-color: transparent !important;
+    background-color: transparent;
+}
+
+.selected-pokemon {
+  background-color: var(--primary) !important;
+  color: var(--accent) !important;
 }
 
 #pokemon-info {
-    height: fit-content;
-    box-shadow: 2.2px 2.2px 7px white !important;
+    height: 25rem;
+}
+
+#pokemon-info ul {
+    list-style-type: none;
 }
 
 .pokemon-card {
-    box-shadow: 2px 2px 5px var(--accent) !important;
+    box-shadow: 1px 1px 3px var(--secondary) !important;
     height: fit-content !important;
 }
 
@@ -76,15 +104,15 @@ body {
 
 #search-pokemon {
     background-color: transparent;
-    color: var(--accent);
+    color: var(--secondary);
     border: none;
-    border-bottom: 1px solid var(--accent);
+    border-bottom: 1px solid var(--secondary);
     border-radius: 0;
 }
 
 #search-pokemon::placeholder {
-    opacity: 0.65;
-    color: var(--accent);
+    opacity: 0.5;
+    color: var(--secondary);
 }
 
 #page-not-found {
@@ -121,6 +149,10 @@ body {
 @media screen and (max-width: 932px) and (orientation: landscape) {
     .pokedex-image-setter-box label {
         width: 100%;
+    }
+
+    #pokedex-view-setter {
+        width: 23rem !important;
     }
 
     #pokemon-info {
