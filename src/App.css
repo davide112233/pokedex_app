@@ -120,6 +120,9 @@ body {
 }
 
 @media screen and (orientation: portrait) {
+    body {
+        overflow-y: visible !important;
+    }
     .navbar-brand, .settings-btn {
         font-size: large !important;
     }
@@ -129,7 +132,7 @@ body {
     }
 
     #pokemon-info {
-        height: 20rem;
+        height: 10rem;
         overflow-y: auto;
     }
 

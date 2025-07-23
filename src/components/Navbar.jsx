@@ -10,7 +10,7 @@ const Navbar = ({ selectedView, onViewChange, spriteMode, onSpriteChange }) => {
         <>
             <nav className="navbar navbar-expand-lg shadow-lg">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#">{DOMPurify.sanitize(`Pokedex app`)}</a>
+                    <a className="navbar-brand" href={DOMPurify.sanitize(`/`)}>{DOMPurify.sanitize(`Pokedex app`)}</a>
                     <form className="d-flex mb-2" role="search">
                         <button className="btn settings-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                             <CiSettings />
