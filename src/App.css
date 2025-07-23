@@ -108,9 +108,21 @@ body {
     #pokemon-list {
         margin-top: 1rem !important;
     }
+
+    .pokedex-view-setter-box {
+        height: fit-content;
+    }
+
+    #pokedex-view-setter {
+        width: 100% !important;
+    }
 }
 
 @media screen and (max-width: 932px) and (orientation: landscape) {
+    .pokedex-image-setter-box label {
+        width: 100%;
+    }
+
     #pokemon-info {
         height: fit-content;
         overflow-y: auto;
